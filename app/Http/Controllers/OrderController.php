@@ -75,8 +75,8 @@ class OrderController extends Controller
                 $mail->Port = 587;
 
                 // Pengaturan pengirim dan penerima
-                $mail->setFrom('maulanaikhsan5311@gmail.com', 'Beauty-care');
-                $mail->addAddress('maulanaikhsan5311@gmail.com');
+                $mail->setFrom('anjay1435@gmail.com', 'Beauty-care');
+                $mail->addAddress('jaerimjaerim05@gmail.com');
 
                 // Konten email
                 $mail->isHTML(true);

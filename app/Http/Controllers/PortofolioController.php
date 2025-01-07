@@ -30,7 +30,7 @@ class PortofolioController extends Controller
             'user_id' => 'required|string',
             'title' => 'required|string',
             'description' => 'required|string',
-            'image' => 'string',
+            'image' => 'string|nullable',
         ]);
 
         // Jika validasi gagal

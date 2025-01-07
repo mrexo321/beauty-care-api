@@ -62,6 +62,16 @@ $router->post('/services', 'ServiceController@store');
 $router->put('/services/{id}' , 'ServiceController@update');
 $router->delete('/services/{id}' , 'ServiceController@destroy');
 
+$router->get('/porto', 'PortofolioController@index');
+$router->get('/porto/{id}', 'PortofolioController@show');
+$router->post('/porto', 'PortofolioController@store');
+$router->put('/porto/{id}' , 'PortofolioController@update');
+$router->delete('/porto/{id}' , 'PortofolioController@destroy');
+
+// $router->delete('/services' , 'ServiceController@review');
+
+
+
 
 $router->get('/portofolio', 'PortofolioController@index');
 $router->get('/portofolio/{id}', 'PortofolioController@show');

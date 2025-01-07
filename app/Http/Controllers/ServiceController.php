@@ -20,18 +20,18 @@ class ServiceController extends Controller
 
     public function store(Request $request)
     {
-        $validatedData = Validator::make($request->all(),[
+        // Validasi data input
+        $validatedData = Validator::make($request->all(), [
             'service_name' => 'required|string',
             'description' => 'required|string',
             'price' => 'required|integer',
             'duration' => 'required|integer',
+            'image' => 'nullable|image',
         ]);
 
         // Jika validasi gagal
         if ($validatedData->fails()) {
-            // Mengambil semua kesalahan validasi
             $errors = $validatedData->errors();
-            // Menyusun pesan kesalahan per field
             $errorMessages = [];
             foreach ($errors->all() as $message) {
                 $errorMessages[] = $message;
@@ -43,22 +43,36 @@ class ServiceController extends Controller
             ], 422);
         }
 
+        // Proses upload gambar jika ada
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            // Menyimpan gambar ke folder storage/app/public/images
+            $imagePath = $image->store('images', 'public');
+        }
+
+        // Menyimpan data service
         $service = Service::create([
             'service_name' => $request->input('service_name'),
             'description' => $request->input('description'),
             'price' => $request->input('price'),
-           'duration' => $request->input('duration'),
-           'category_id' => $request->input('category_id')
+            'duration' => $request->input('duration'),
+            'category_id' => $request->input('category_id'),
+            'image' => $imagePath, // Menyimpan path gambar
         ]);
 
-        if($service){
+        if ($service) {
             return response()->json([
                 'success' => true,
-                'message' => 'Berhasil Menambah Data Service',
+                'message' => 'Service added successfully',
                 'data' => $service
-            ],201);
+            ], 201);
         }
 
+        return response()->json([
+            'success' => false,
+            'message' => 'Failed to add service'
+        ], 500);
     }
 
     public function show($id)
@@ -137,5 +151,15 @@ class ServiceController extends Controller
         }
 
 
+    }
+
+    public function review($id)
+    {
+        $reviews = Review::where('service_id' , $id)->get();
+
+        return response()->json([
+            'message' => 'berhasil mendapatkan review',
+            'data' => $reviews
+        ],200);
     }
 }
